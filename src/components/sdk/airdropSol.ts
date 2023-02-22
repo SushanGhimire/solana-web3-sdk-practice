@@ -12,7 +12,7 @@ export const airdropSolToWallet = async (
     const publickey = wallet.publicKey?.toString() ?? "";
     const requestSol = await connection.requestAirdrop(
       new PublicKey(publickey),
-      LAMPORTS
+      LAMPORTS * 2
     );
     const res = await connection.confirmTransaction(requestSol, "confirmed");
     console.log(res);

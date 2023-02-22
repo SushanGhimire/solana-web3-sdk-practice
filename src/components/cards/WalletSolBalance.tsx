@@ -2,9 +2,10 @@ import { Card } from "flowbite-react";
 
 type Props = {
   sol: number;
+  pdaSol: number;
 };
 
-const WalletSolBalance = ({ sol }: Props) => {
+const WalletSolBalance = ({ sol, pdaSol }: Props) => {
   return (
     <div>
       <div className="max-w-sm">
@@ -69,7 +70,7 @@ const WalletSolBalance = ({ sol }: Props) => {
                   </div>
                   <div className="inline-flex items-center font-medium text-gray-900 dark:text-white">
                     {/* $320 */}
-                    {sol} SOL
+                    {pdaSol} SOL
                   </div>
                 </div>
               </li>

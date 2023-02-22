@@ -2,14 +2,18 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { Button } from "flowbite-react";
 import React from "react";
 import { airdropSolToWallet } from "../sdk/airdropSol";
-import { fetchWalletSolBalance } from "../sdk/fetchBalances";
+import {
+  fetchPDASolBalance,
+  fetchWalletSolBalance,
+} from "../sdk/fetchBalances";
 import { transferSol } from "../sdk/transferSol";
 
 type Props = {
   setSol: React.Dispatch<React.SetStateAction<number>>;
+  setPdaSol: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const ButtonActions = ({ setSol }: Props) => {
+const ButtonActions = ({ setSol, setPdaSol }: Props) => {
   const wallet = useWallet();
   return (
     <div>
@@ -21,6 +25,15 @@ const ButtonActions = ({ setSol }: Props) => {
             onClick={() => fetchWalletSolBalance(wallet, setSol)}
           >
             Fetch Wallet Balance (SOL)
+          </Button>
+        </div>
+        <div>
+          <Button
+            outline={true}
+            gradientDuoTone="purpleToPink"
+            onClick={() => fetchPDASolBalance(wallet, setPdaSol)}
+          >
+            Fetch PDA Balance (SOL)
           </Button>
         </div>
         <div>
@@ -41,17 +54,13 @@ const ButtonActions = ({ setSol }: Props) => {
             Transafer SOL
           </Button>
         </div>
-        {/* 
-        <div>
-          <Button outline={true} gradientDuoTone="purpleToPink">
-            Purple to Pink
-          </Button>
-        </div>
         <div>
           <Button outline={true} gradientDuoTone="pinkToOrange">
-            Pink to Orange
+            Deposit SOl to PDA
           </Button>
         </div>
+        {/* 
+      
         <div>
           <Button outline={true} gradientDuoTone="tealToLime">
             Teal to Lime

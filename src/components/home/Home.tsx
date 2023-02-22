@@ -8,12 +8,13 @@ type Props = {};
 
 const Home = (props: Props) => {
   const [sol, setSol] = useState<number>(0);
+  const [pdaSol, setPdaSol] = useState<number>(0);
   return (
     <div className="space-y-3">
-      <ButtonActions setSol={setSol} />
+      <ButtonActions setSol={setSol} setPdaSol={setPdaSol} />
       <div className="grid grid-cols-3 gap-6">
         <WalletAddresses />
-        <WalletSolBalance sol={sol} />
+        <WalletSolBalance sol={sol} pdaSol={pdaSol} />
         <WalletTokens />
       </div>
     </div>
