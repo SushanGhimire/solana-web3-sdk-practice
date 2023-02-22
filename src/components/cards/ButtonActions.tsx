@@ -6,7 +6,7 @@ import {
   fetchPDASolBalance,
   fetchWalletSolBalance,
 } from "../sdk/fetchBalances";
-import { transferSol } from "../sdk/transferSol";
+import { depositSolToPDA, transferSol } from "../sdk/transferSol";
 
 type Props = {
   setSol: React.Dispatch<React.SetStateAction<number>>;
@@ -55,7 +55,11 @@ const ButtonActions = ({ setSol, setPdaSol }: Props) => {
           </Button>
         </div>
         <div>
-          <Button outline={true} gradientDuoTone="pinkToOrange">
+          <Button
+            outline={true}
+            gradientDuoTone="pinkToOrange"
+            onClick={() => depositSolToPDA(wallet)}
+          >
             Deposit SOl to PDA
           </Button>
         </div>
