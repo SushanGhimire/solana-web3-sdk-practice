@@ -12,11 +12,12 @@ const ButtonActions = (props: Props) => {
             Fetch Wallet Tokens
           </Button>
         </div>
-        {/* <div>
+        <div>
           <Button outline={true} gradientDuoTone="cyanToBlue">
-            Cyan to Blue
+            Air Drop SOL
           </Button>
         </div>
+        {/* 
         <div>
           <Button outline={true} gradientDuoTone="greenToBlue">
             Green to Blue
