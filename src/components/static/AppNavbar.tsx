@@ -1,9 +1,15 @@
-import { Button, Navbar } from "flowbite-react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import {
+  WalletDisconnectButton,
+  WalletMultiButton,
+} from "@solana/wallet-adapter-react-ui";
+import { Navbar } from "flowbite-react";
 import React from "react";
 
 type Props = {};
 
 const AppNavbar = (props: Props) => {
+  const wallet = useWallet();
   return (
     <div>
       <Navbar className="bg-slate-200" fluid={true} rounded={true}>
@@ -18,7 +24,11 @@ const AppNavbar = (props: Props) => {
           </span>
         </Navbar.Brand>
         <div className="flex md:order-2">
-          <Button>Get started</Button>
+          {wallet?.connected ? (
+            <WalletDisconnectButton />
+          ) : (
+            <WalletMultiButton />
+          )}
           <Navbar.Toggle />
         </div>
         <Navbar.Collapse>

@@ -1,9 +1,11 @@
+import { useWallet } from "@solana/wallet-adapter-react";
 import { Card } from "flowbite-react";
 import React from "react";
 
 type Props = {};
 
 const WalletAddresses = (props: Props) => {
+  const wallet = useWallet();
   return (
     <div className="space-y-2">
       <Card>
@@ -12,7 +14,7 @@ const WalletAddresses = (props: Props) => {
             Connected Wallet Address
           </h5>
           <p className="font-normal text-gray-700 dark:text-gray-400 text-xs">
-            FocNiUwHyjBzyZ7eQqqVooqNBWyMkM2xdEtamigddbDZ
+            {wallet?.publicKey?.toString()}
           </p>
         </div>
         <div>
