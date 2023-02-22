@@ -3,6 +3,7 @@ import { Button } from "flowbite-react";
 import React from "react";
 import { airdropSolToWallet } from "../sdk/airdropSol";
 import { fetchWalletSolBalance } from "../sdk/fetchBalances";
+import { transferSol } from "../sdk/transferSol";
 
 type Props = {
   setSol: React.Dispatch<React.SetStateAction<number>>;
@@ -31,12 +32,16 @@ const ButtonActions = ({ setSol }: Props) => {
             Air Drop SOL
           </Button>
         </div>
-        {/* 
         <div>
-          <Button outline={true} gradientDuoTone="greenToBlue">
-            Green to Blue
+          <Button
+            outline={true}
+            gradientDuoTone="greenToBlue"
+            onClick={() => transferSol(wallet)}
+          >
+            Transafer SOL
           </Button>
         </div>
+        {/* 
         <div>
           <Button outline={true} gradientDuoTone="purpleToPink">
             Purple to Pink
