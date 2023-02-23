@@ -29,14 +29,24 @@ const ButtonActions = ({
   return (
     <div>
       <div className="flex flex-wrap items-center justify-center gap-2">
-        {/* wallet  */}
+        <div>
+          <div>
+            <Button
+              outline={true}
+              gradientDuoTone="purpleToBlue"
+              onClick={() => fetchWalletSolBalance(wallet, setSol)}
+            >
+              Fetch Wallet Balance (SOL)
+            </Button>
+          </div>
+        </div>
         <div>
           <Button
             outline={true}
-            gradientDuoTone="purpleToBlue"
-            onClick={() => fetchWalletSolBalance(wallet, setSol)}
+            gradientDuoTone="purpleToPink"
+            onClick={() => fetchPDASolBalance(wallet, setPdaSol)}
           >
-            Fetch Wallet Balance (SOL)
+            Fetch PDA Balance (SOL)
           </Button>
         </div>
         <div>
@@ -54,26 +64,6 @@ const ButtonActions = ({
         <div>
           <Button
             outline={true}
-            gradientDuoTone="greenToBlue"
-            onClick={() => transferSol(wallet)}
-          >
-            Transafer SOL to Another Wallet
-          </Button>
-        </div>
-
-        {/* pda  */}
-        <div>
-          <Button
-            outline={true}
-            gradientDuoTone="purpleToPink"
-            onClick={() => fetchPDASolBalance(wallet, setPdaSol)}
-          >
-            Fetch PDA Balance (SOL)
-          </Button>
-        </div>
-        <div>
-          <Button
-            outline={true}
             gradientDuoTone="tealToLime"
             onClick={() => {
               setPdaTokens([]);
@@ -81,6 +71,25 @@ const ButtonActions = ({
             }}
           >
             Fetch PDA Wallet Tokens
+          </Button>
+        </div>
+
+        <div>
+          <Button
+            outline={true}
+            gradientDuoTone="cyanToBlue"
+            onClick={() => airdropSolToWallet(wallet, setSol)}
+          >
+            Air Drop SOL
+          </Button>
+        </div>
+        <div>
+          <Button
+            outline={true}
+            gradientDuoTone="greenToBlue"
+            onClick={() => transferSol(wallet)}
+          >
+            Transafer SOL to Another Wallet
           </Button>
         </div>
         <div>
@@ -93,16 +102,6 @@ const ButtonActions = ({
           </Button>
         </div>
         <DepositTokenToPda tokens={tokens} />
-
-        <div>
-          <Button
-            outline={true}
-            gradientDuoTone="cyanToBlue"
-            onClick={() => airdropSolToWallet(wallet, setSol)}
-          >
-            Air Drop SOL
-          </Button>
-        </div>
       </div>
     </div>
   );

@@ -12,7 +12,6 @@ const Home = (props: Props) => {
   const [pdaSol, setPdaSol] = useState<number>(0);
   const [tokens, setTokens] = useState<any>([]);
   const [pdaTokens, setPdaTokens] = useState<any>([]);
-  console.log(tokens);
   return (
     <div className="space-y-3">
       <ButtonActions

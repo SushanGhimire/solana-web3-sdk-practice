@@ -131,7 +131,6 @@ const parseTokenAmount = async (amount: string, mint: string) => {
   const connection = CONNECTION;
   const amt = Number(amount);
   const mintInfo = await getMint(connection, new PublicKey(mint), "confirmed");
-  console.log(mintInfo);
   const unitPerToken = Math.pow(10, mintInfo.decimals);
   return amt * unitPerToken;
 };

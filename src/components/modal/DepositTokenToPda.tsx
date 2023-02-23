@@ -26,7 +26,6 @@ const DepositTokenToPda = ({ tokens }: Props) => {
       [e.target.name]: e.target.value,
     });
   };
-  console.log(inputs);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -75,9 +74,9 @@ const DepositTokenToPda = ({ tokens }: Props) => {
                       }}
                     >
                       <option hidden>Select Token</option>
-                      {tokens.map((data) => {
+                      {tokens.map((data, index) => {
                         return (
-                          <option key={data.tokenInfo.symbol} value={data.mint}>
+                          <option key={index} value={data.mint}>
                             {data.tokenInfo.token_name}
                           </option>
                         );

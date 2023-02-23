@@ -63,7 +63,7 @@ const getTokenDetails = (
       mint: accountData.mint.toString(),
       amount: Number(accountData.amount) / Math.pow(10, mintData.decimals),
       decimal: mintData.decimals,
-      tokenInfo: token_images[accountData.mint.toString()],
+      tokenInfo: token_images[accountData.mint.toString()] ?? "",
     };
     setTokens((preval: any) => {
       return [...preval, data];

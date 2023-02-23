@@ -33,32 +33,34 @@ const PdaWalletTokens = ({ tokens }: Props) => {
         <div className="flow-root">
           <ul className="divide-y divide-gray-200 dark:divide-gray-700">
             {Array.isArray(tokens) &&
-              tokens.map((data, index) => {
-                return (
-                  <li className="py-3 sm:py-4" key={index}>
-                    <div className="flex items-center space-x-4">
-                      <div className="shrink-0">
-                        <img
-                          className="h-8 w-8 rounded-full"
-                          src={data.tokenInfo?.logo}
-                          alt="Neil"
-                        />
+              tokens
+                .filter((data) => data.tokenInfo !== "")
+                .map((data, index) => {
+                  return (
+                    <li className="py-3 sm:py-4" key={index}>
+                      <div className="flex items-center space-x-4">
+                        <div className="shrink-0">
+                          <img
+                            className="h-8 w-8 rounded-full"
+                            src={data.tokenInfo?.logo}
+                            alt="Neil"
+                          />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
+                            {data.tokenInfo?.symbol}
+                          </p>
+                          <p className="truncate text-sm text-gray-500 dark:text-gray-400">
+                            {data.tokenInfo?.token_name}
+                          </p>
+                        </div>
+                        <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                          {data.amount} {data.tokenInfo?.symbol}
+                        </div>
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                          {data.tokenInfo?.symbol}
-                        </p>
-                        <p className="truncate text-sm text-gray-500 dark:text-gray-400">
-                          {data.tokenInfo?.token_name}
-                        </p>
-                      </div>
-                      <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                        {data.amount} {data.tokenInfo?.symbol}
-                      </div>
-                    </div>
-                  </li>
-                );
-              })}
+                    </li>
+                  );
+                })}
           </ul>
         </div>
       </Card>

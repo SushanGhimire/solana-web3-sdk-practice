@@ -15,7 +15,6 @@ export const airdropSolToWallet = async (
       LAMPORTS * 2
     );
     const res = await connection.confirmTransaction(requestSol, "confirmed");
-    console.log(res);
     fetchWalletSolBalance(wallet, setSol);
   } catch (err: any) {
     console.log(err);
