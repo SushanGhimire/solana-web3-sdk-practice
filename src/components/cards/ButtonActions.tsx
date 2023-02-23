@@ -6,14 +6,16 @@ import {
   fetchPDASolBalance,
   fetchWalletSolBalance,
 } from "../sdk/fetchBalances";
+import { fetchAllWalletTOkens } from "../sdk/fetchTokens";
 import { depositSolToPDA, transferSol } from "../sdk/transferSol";
 
 type Props = {
   setSol: React.Dispatch<React.SetStateAction<number>>;
   setPdaSol: React.Dispatch<React.SetStateAction<number>>;
+  setTokens: React.Dispatch<React.SetStateAction<any[]>>;
 };
 
-const ButtonActions = ({ setSol, setPdaSol }: Props) => {
+const ButtonActions = ({ setSol, setPdaSol, setTokens }: Props) => {
   const wallet = useWallet();
   return (
     <div>
@@ -34,6 +36,18 @@ const ButtonActions = ({ setSol, setPdaSol }: Props) => {
             onClick={() => fetchPDASolBalance(wallet, setPdaSol)}
           >
             Fetch PDA Balance (SOL)
+          </Button>
+        </div>
+        <div>
+          <Button
+            outline={true}
+            gradientDuoTone="tealToLime"
+            onClick={() => {
+              setTokens([]);
+              fetchAllWalletTOkens(wallet, setTokens);
+            }}
+          >
+            Fetch All Wallet Tokens
           </Button>
         </div>
         <div>
@@ -63,14 +77,8 @@ const ButtonActions = ({ setSol, setPdaSol }: Props) => {
             Deposit SOl to PDA
           </Button>
         </div>
-        {/* 
-      
-        <div>
-          <Button outline={true} gradientDuoTone="tealToLime">
-            Teal to Lime
-          </Button>
-        </div>
-        <div>
+
+        {/* <div>
           <Button outline={true} gradientDuoTone="redToYellow">
             Red to Yellow
           </Button>
