@@ -1,11 +1,14 @@
+import { useWallet } from "@solana/wallet-adapter-react";
 import { Button, Label, Modal, TextInput } from "flowbite-react";
 import React, { useState } from "react";
+import { depositTokenToPda } from "../sdk/transferSol";
 
 type Props = {
   tokens: any[];
 };
 
 const DepositTokenToPda = ({ tokens }: Props) => {
+  const wallet = useWallet();
   const [open, setOpen] = useState<boolean>(false);
   const [inputs, setInputs] = useState<{
     mint: string;
@@ -24,6 +27,12 @@ const DepositTokenToPda = ({ tokens }: Props) => {
     });
   };
   console.log(inputs);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    depositTokenToPda(wallet, inputs);
+  };
 
   return (
     <div>
@@ -51,7 +60,7 @@ const DepositTokenToPda = ({ tokens }: Props) => {
               <h3 className="text-xl font-medium text-gray-900 dark:text-white">
                 Deposit Token To PDA
               </h3>
-              <form action="">
+              <form action="" onSubmit={handleSubmit}>
                 <div id="select">
                   <div className="mb-2 block">
                     <Label htmlFor="tokens" value="Select Token" />
@@ -92,7 +101,9 @@ const DepositTokenToPda = ({ tokens }: Props) => {
                     }}
                   />
                 </div>
-                <Button className="my-5 w-full">Deposit</Button>
+                <Button className="my-5 w-full" type="submit">
+                  Deposit
+                </Button>
               </form>
             </div>
           </Modal.Body>

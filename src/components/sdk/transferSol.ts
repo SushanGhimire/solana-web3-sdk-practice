@@ -1,3 +1,10 @@
+import {
+  ASSOCIATED_TOKEN_PROGRAM_ID,
+  createTransferInstruction,
+  getAssociatedTokenAddress,
+  getMint,
+  TOKEN_PROGRAM_ID,
+} from "@solana/spl-token";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { CONNECTION, LAMPORTS } from "../constants";
@@ -63,4 +70,68 @@ export const depositSolToPDA = async (wallet: WalletContextState) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+export const depositTokenToPda = async (
+  wallet: WalletContextState,
+  data: {
+    mint: string;
+    amount: string;
+  }
+) => {
+  try {
+    const connection = CONNECTION;
+    const senderPublicKey = new PublicKey(wallet.publicKey ?? "");
+    const mint = new PublicKey(data.mint);
+    const pdaAddress = getpda(wallet);
+    const amount = await parseTokenAmount(data.amount, data.mint);
+    const fromTokenAccount = await getAssociatedTokenAddress(
+      mint,
+      new PublicKey(senderPublicKey),
+      false,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID
+    );
+    const toToTokenAccount = await getAssociatedTokenAddress(
+      mint,
+      new PublicKey(pdaAddress),
+      true,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID
+    );
+
+    const transaction = new Transaction();
+    const transferInstruction = createTransferInstruction(
+      fromTokenAccount,
+      toToTokenAccount,
+      senderPublicKey,
+      amount,
+      [],
+      TOKEN_PROGRAM_ID
+    );
+
+    transaction.add(transferInstruction);
+    transaction.feePayer = senderPublicKey;
+
+    const block = await connection.getLatestBlockhash();
+    transaction.recentBlockhash = block.blockhash;
+
+    if (wallet.signTransaction) {
+      const sign = await wallet.signTransaction(transaction);
+      const signature = await connection.sendRawTransaction(sign.serialize());
+      await connection.confirmTransaction(signature, "confirmed");
+      alert("Token added to pda");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const parseTokenAmount = async (amount: string, mint: string) => {
+  const connection = CONNECTION;
+  const amt = Number(amount);
+  const mintInfo = await getMint(connection, new PublicKey(mint), "confirmed");
+  console.log(mintInfo);
+  const unitPerToken = Math.pow(10, mintInfo.decimals);
+  return amt * unitPerToken;
 };
