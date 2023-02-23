@@ -20,6 +20,7 @@ const Home = (props: Props) => {
         setPdaSol={setPdaSol}
         setTokens={setTokens}
         setPdaTokens={setPdaTokens}
+        tokens={tokens}
       />
       <WalletAddresses />
       <div className="grid grid-cols-3 gap-6">

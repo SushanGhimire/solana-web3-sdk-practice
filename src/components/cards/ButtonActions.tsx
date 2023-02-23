@@ -1,6 +1,7 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Button } from "flowbite-react";
 import React from "react";
+import DepositTokenToPda from "../modal/DepositTokenToPda";
 import { airdropSolToWallet } from "../sdk/airdropSol";
 import {
   fetchPDASolBalance,
@@ -14,6 +15,7 @@ type Props = {
   setPdaSol: React.Dispatch<React.SetStateAction<number>>;
   setTokens: React.Dispatch<React.SetStateAction<any[]>>;
   setPdaTokens: React.Dispatch<React.SetStateAction<any[]>>;
+  tokens: any[];
 };
 
 const ButtonActions = ({
@@ -21,6 +23,7 @@ const ButtonActions = ({
   setPdaSol,
   setTokens,
   setPdaTokens,
+  tokens,
 }: Props) => {
   const wallet = useWallet();
   return (
@@ -96,6 +99,7 @@ const ButtonActions = ({
             Deposit SOl to PDA
           </Button>
         </div>
+        <DepositTokenToPda tokens={tokens} />
       </div>
     </div>
   );
