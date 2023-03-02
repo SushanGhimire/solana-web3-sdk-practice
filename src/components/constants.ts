@@ -1,7 +1,7 @@
 import { clusterApiUrl, Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
 
 export const RPC_NETWORK = "devnet";
-export const PROGRAM_ID = "zbcKGdAmXfthXY3rEPBzexVByT2cqRqCZb9NwWdGQ2T";
+export const PROGRAM_ID = "7FNWTfCo3AyRBFCvr49daqKHehdn2GjNgpjuTsqy5twk";
 export const CONNECTION = new Connection(
   clusterApiUrl(RPC_NETWORK),
   "confirmed"

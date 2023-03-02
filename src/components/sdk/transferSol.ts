@@ -127,7 +127,7 @@ export const depositTokenToPda = async (
   }
 };
 
-const parseTokenAmount = async (amount: string, mint: string) => {
+export const parseTokenAmount = async (amount: string, mint: string) => {
   const connection = CONNECTION;
   const amt = Number(amount);
   const mintInfo = await getMint(connection, new PublicKey(mint), "confirmed");
