@@ -7,13 +7,27 @@ export const getpda = (wallet: WalletContextState) => {
   if (wallet.connected && wallet) {
     try {
       const publickey = new PublicKey(wallet.publicKey ?? "");
-      address = PublicKey.findProgramAddressSync(
+      const data = PublicKey.findProgramAddressSync(
         [publickey?.toBuffer()],
         new PublicKey(PROGRAM_ID)
       );
+      address = data[0];
     } catch (err) {
       console.log(err);
     }
   }
-  return address ? address[0].toBase58() : "";
+  return address;
+};
+
+export const getWithdrawData = (wallet: WalletContextState) => {
+  let w_data: any;
+  if (wallet.connected && wallet) {
+    const publickey = new PublicKey(wallet.publicKey ?? "");
+    const data = PublicKey.findProgramAddressSync(
+      [Buffer.from("withdraw_sol"), publickey?.toBuffer()],
+      new PublicKey(PROGRAM_ID)
+    );
+    w_data = data[0];
+  }
+  return w_data;
 };

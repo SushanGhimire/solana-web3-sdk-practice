@@ -27,7 +27,7 @@ export const fetchPDASolBalance = async (
   try {
     const connection = CONNECTION;
     const pdaAddress = getpda(wallet);
-    const balance = await connection.getBalance(new PublicKey(pdaAddress));
+    const balance = await connection.getBalance(pdaAddress);
     setPdaSol(balance / LAMPORTS);
   } catch (err) {
     console.log(err);

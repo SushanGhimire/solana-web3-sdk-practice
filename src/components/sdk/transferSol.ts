@@ -1,9 +1,8 @@
 import {
-  ASSOCIATED_TOKEN_PROGRAM_ID,
+  createAssociatedTokenAccountInstruction,
   createTransferInstruction,
   getAssociatedTokenAddress,
   getMint,
-  TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
@@ -17,23 +16,37 @@ export const transferSol = async (wallet: WalletContextState) => {
     const receiver = new PublicKey(
       "6RaG6xBwfT7MKAya3VCfs9cneaTJ6iUkEP1i91XeAF9j"
     );
+    const transaction = new Transaction();
     const instruction = SystemProgram.transfer({
       fromPubkey: publicKey,
       toPubkey: receiver,
       lamports: LAMPORTS,
     });
-    const transaction: Transaction = new Transaction().add(instruction);
-    transaction.feePayer = publicKey;
-    const block = await connection.getLatestBlockhash();
-    transaction.recentBlockhash = block.blockhash;
-    if (wallet.signTransaction) {
-      const sign = await wallet.signTransaction(transaction);
-      const signature = await connection.sendRawTransaction(sign.serialize());
-      await connection.confirmTransaction(signature, "confirmed");
-      alert("sol transfered");
-    } else {
-      throw new Error("Transaction cannot be signed.");
-    }
+    transaction.add(instruction);
+
+    wallet
+      .sendTransaction(transaction, connection)
+      .then((res) => {
+        console.log(res);
+        alert("sol transfered");
+      })
+      .catch((err) => {
+        console.log(err);
+        throw new Error("Transaction cannot be signed.");
+      });
+
+    // const transaction: Transaction = new Transaction().add(instruction);
+    // transaction.feePayer = publicKey;
+    // const block = await connection.getLatestBlockhash();
+    // transaction.recentBlockhash = block.blockhash;
+    // if (wallet.signTransaction) {
+    //   const sign = await wallet.signTransaction(transaction);
+    //   const signature = await connection.sendRawTransaction(sign.serialize());
+    //   await connection.confirmTransaction(signature, "confirmed");
+    //   alert("sol transfered");
+    // } else {
+    //   throw new Error("Transaction cannot be signed.");
+    // }
   } catch (err) {
     console.log(err);
   }
@@ -53,20 +66,17 @@ export const depositSolToPDA = async (wallet: WalletContextState) => {
     });
 
     const transaction = new Transaction().add(instruction);
-
-    const block = await connection.getLatestBlockhash();
-
-    transaction.recentBlockhash = block.blockhash;
     transaction.feePayer = feePayer;
-
-    if (wallet.signTransaction) {
-      const sign = await wallet.signTransaction(transaction);
-      const signature = await connection.sendRawTransaction(sign.serialize());
-      await connection.confirmTransaction(signature, "confirmed");
-      alert("1 sol deposited to pda");
-    } else {
-      throw new Error("Transaction cannot be signed.");
-    }
+    wallet
+      .sendTransaction(transaction, connection)
+      .then((res) => {
+        console.log(res);
+        alert("sol transfered");
+      })
+      .catch((err) => {
+        console.log(err);
+        throw new Error("Transaction cannot be signed.");
+      });
   } catch (err) {
     console.log(err);
   }
@@ -85,43 +95,46 @@ export const depositTokenToPda = async (
     const mint = new PublicKey(data.mint);
     const pdaAddress = getpda(wallet);
     const amount = await parseTokenAmount(data.amount, data.mint);
+
     const fromTokenAccount = await getAssociatedTokenAddress(
       mint,
-      new PublicKey(senderPublicKey),
-      false,
-      TOKEN_PROGRAM_ID,
-      ASSOCIATED_TOKEN_PROGRAM_ID
+      new PublicKey(senderPublicKey)
     );
     const toToTokenAccount = await getAssociatedTokenAddress(
       mint,
       new PublicKey(pdaAddress),
-      true,
-      TOKEN_PROGRAM_ID,
-      ASSOCIATED_TOKEN_PROGRAM_ID
+      true
     );
+    const toTokenAccInfo = await connection.getAccountInfo(toToTokenAccount);
 
     const transaction = new Transaction();
-    const transferInstruction = createTransferInstruction(
+    if (!toTokenAccInfo) {
+      transaction.add(
+        createAssociatedTokenAccountInstruction(
+          senderPublicKey,
+          toToTokenAccount,
+          pdaAddress,
+          mint
+        )
+      );
+    }
+    const tokenAccountInst = createTransferInstruction(
       fromTokenAccount,
       toToTokenAccount,
       senderPublicKey,
-      amount,
-      [],
-      TOKEN_PROGRAM_ID
+      amount
     );
-
-    transaction.add(transferInstruction);
+    transaction.add(tokenAccountInst);
     transaction.feePayer = senderPublicKey;
 
-    const block = await connection.getLatestBlockhash();
-    transaction.recentBlockhash = block.blockhash;
-
-    if (wallet.signTransaction) {
-      const sign = await wallet.signTransaction(transaction);
-      const signature = await connection.sendRawTransaction(sign.serialize());
-      await connection.confirmTransaction(signature, "confirmed");
-      alert("Token added to pda");
-    }
+    wallet
+      .sendTransaction(transaction, connection)
+      .then((res) => {
+        alert("Token deposited into pda");
+      })
+      .catch((err) => {
+        throw new Error(err);
+      });
   } catch (err) {
     console.log(err);
   }
@@ -134,3 +147,15 @@ export const parseTokenAmount = async (amount: string, mint: string) => {
   const unitPerToken = Math.pow(10, mintInfo.decimals);
   return amt * unitPerToken;
 };
+
+// transaction.feePayer = senderPublicKey;
+// const { blockhash, lastValidBlockHeight} = await connection.getLatestBlockhash();
+// transaction.recentBlockhash = blockhash;
+// transaction.lastValidBlockHeight = lastValidBlockHeight;
+
+// if (wallet.signTransaction) {
+//   const sign = await wallet.signTransaction(transaction);
+//   const signature = await connection.sendRawTransaction(sign.serialize());
+//   await connection.confirmTransaction({signature, blockhash, lastValidBlockHeight}, "confirmed");
+//   alert("Token added to pda");
+// }

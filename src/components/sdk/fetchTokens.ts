@@ -34,12 +34,10 @@ export const fetchPdaTokens = async (
     const connection = CONNECTION;
     const pdaAddress = getpda(wallet);
     // const publicKey = new PublicKey(wallet?.publicKey ?? "");
-    const tokenAccounts = await connection.getTokenAccountsByOwner(
-      new PublicKey(pdaAddress),
-      {
-        programId: TOKEN_PROGRAM_ID,
-      }
-    );
+    const tokenAccounts = await connection.getTokenAccountsByOwner(pdaAddress, {
+      programId: TOKEN_PROGRAM_ID,
+    });
+    console.log(tokenAccounts);
     getTokenDetails(setPdaTokens, tokenAccounts);
   } catch (err) {
     console.log(err);

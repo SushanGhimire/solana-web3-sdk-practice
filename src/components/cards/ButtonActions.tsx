@@ -1,6 +1,6 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Button } from "flowbite-react";
-import React from "react";
+import React, { useEffect } from "react";
 import DepositTokenToPda from "../modal/DepositTokenToPda";
 import { airdropSolToWallet } from "../sdk/airdropSol";
 import {
@@ -26,6 +26,17 @@ const ButtonActions = ({
   tokens,
 }: Props) => {
   const wallet = useWallet();
+
+  useEffect(() => {
+    if (wallet.connected) {
+      fetchWalletSolBalance(wallet, setSol);
+      fetchPDASolBalance(wallet, setPdaSol);
+      setTokens([]);
+      fetchAllWalletTOkens(wallet, setTokens);
+      setPdaTokens([]);
+      fetchPdaTokens(wallet, setPdaTokens);
+    }
+  }, [wallet.connected]);
   return (
     <div>
       <div className="flex flex-wrap items-center justify-center gap-2">

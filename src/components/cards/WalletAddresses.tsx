@@ -24,7 +24,7 @@ const WalletAddresses = (props: Props) => {
               PDA Wallet Address
             </h5>
             <p className="font-normal text-gray-700 dark:text-gray-400 text-xs">
-              {getpda(wallet)}
+              {getpda(wallet)?.toString()}
             </p>
           </div>
         </div>
