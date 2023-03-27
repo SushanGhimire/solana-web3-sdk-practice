@@ -1,9 +1,15 @@
 import { clusterApiUrl, Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
 
 export const RPC_NETWORK = "devnet";
+export const ANCHOR_RPC_NETWORK = "http://localhost:8899";
 export const PROGRAM_ID = "7FNWTfCo3AyRBFCvr49daqKHehdn2GjNgpjuTsqy5twk";
+export const ANCHOR_PROGRAM_ID = "GQbVPdXM9nTxr3gua2vj5F5CVeWoZ9MfwMHpbCgux5jN";
 export const CONNECTION = new Connection(
   clusterApiUrl(RPC_NETWORK),
+  "confirmed"
+);
+export const ANCHOR_CONNECTION = new Connection(
+  ANCHOR_RPC_NETWORK,
   "confirmed"
 );
 export const LAMPORTS = LAMPORTS_PER_SOL;

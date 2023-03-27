@@ -35,6 +35,9 @@ const AppNavbar = (props: Props) => {
           <Navbar.Link href="/" active={true}>
             Home
           </Navbar.Link>
+          <Navbar.Link href="/movie-review" active={true}>
+            Movie Review
+          </Navbar.Link>
         </Navbar.Collapse>
       </Navbar>
     </div>
