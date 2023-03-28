@@ -1,4 +1,4 @@
-# Welcome to Solana Web3.js Solana Spl & Anchor Client practice
+# Welcome to Solana Web3.js, Solana Spl & Anchor Client practice
 
 To run the development server:
 
