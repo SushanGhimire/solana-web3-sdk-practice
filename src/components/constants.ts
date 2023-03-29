@@ -4,6 +4,9 @@ export const RPC_NETWORK = "devnet";
 export const ANCHOR_RPC_NETWORK = "http://localhost:8899";
 export const PROGRAM_ID = "7FNWTfCo3AyRBFCvr49daqKHehdn2GjNgpjuTsqy5twk";
 export const ANCHOR_PROGRAM_ID = "GQbVPdXM9nTxr3gua2vj5F5CVeWoZ9MfwMHpbCgux5jN";
+export const BATCH_TRANSFER_PROGRAM_ID =
+  "9xxMJ1CUKS9G2AjLuZDG8i5d8Va7dqcMsXgaPsjPir66";
+
 export const CONNECTION = new Connection(
   clusterApiUrl(RPC_NETWORK),
   "confirmed"

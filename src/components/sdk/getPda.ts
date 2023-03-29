@@ -1,15 +1,18 @@
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
-import { PROGRAM_ID } from "../constants";
+import { PROGRAM_ID, BATCH_TRANSFER_PROGRAM_ID } from "../constants";
 
 export const getpda = (wallet: WalletContextState) => {
   let address: any = "";
   if (wallet.connected && wallet) {
     try {
+      const type = localStorage.getItem("type");
       const publickey = new PublicKey(wallet.publicKey ?? "");
       const data = PublicKey.findProgramAddressSync(
         [publickey?.toBuffer()],
-        new PublicKey(PROGRAM_ID)
+        type === "batch"
+          ? new PublicKey(BATCH_TRANSFER_PROGRAM_ID)
+          : new PublicKey(PROGRAM_ID)
       );
       address = data[0];
     } catch (err) {

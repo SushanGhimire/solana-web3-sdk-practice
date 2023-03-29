@@ -36,6 +36,7 @@ const ButtonActions = ({
       setPdaTokens([]);
       fetchPdaTokens(wallet, setPdaTokens);
     }
+    // eslint-disable-next-line
   }, [wallet.connected]);
   return (
     <div>
