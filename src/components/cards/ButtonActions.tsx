@@ -3,6 +3,7 @@ import { Button } from "flowbite-react";
 import React, { useEffect } from "react";
 import useGetAnchorProvider from "../../hooks/useGetAnchorProvider";
 import { deposit_sol } from "../anchor-batch-transfer-sdk/deposit-sol";
+import { trasfer_sol } from "../anchor-batch-transfer-sdk/transfer-sol";
 import DepositTokenToPda from "../modal/DepositTokenToPda";
 import { airdropSolToWallet } from "../sdk/airdropSol";
 import {
@@ -124,6 +125,21 @@ const ButtonActions = ({
             }}
           >
             Deposit SOl to PDA
+          </Button>
+        </div>
+        <div>
+          <Button
+            outline={true}
+            gradientDuoTone="pinkToOrange"
+            onClick={() => {
+              if (type === "batch") {
+                trasfer_sol(program, wallet);
+              } else {
+                // depositSolToPDA(walletObj);
+              }
+            }}
+          >
+            Transfer SOl from PDA
           </Button>
         </div>
         <DepositTokenToPda tokens={tokens} />

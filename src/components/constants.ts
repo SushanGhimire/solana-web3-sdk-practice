@@ -31,7 +31,17 @@ export const token_images: any = {
     symbol: "USDC",
     token_name: "USDC",
   },
+  "HKNFuWwob7CtWu3GgBVFLc7y2VCPz98xE6XaohumhQy5": {
+    logo: "https://cryptologos.cc/logos/usd-coin-usdc-logo.png?v=0244",
+    symbol: "USDC",
+    token_name: "USDC",
+  },
   "6vvKBoSx7p33YER66LQ8VokTRHUcmxwz3iA1GSbexC5i": {
+    logo: "https://s2.coinmarketcap.com/static/img/coins/64x64/18860.png",
+    symbol: "ZBC",
+    token_name: "Zebec Protocol",
+  },
+  "6bn4rEJYLHu5tyfRZr1S3JcaxmexPTaFHS2KNoS3aKxg":{
     logo: "https://s2.coinmarketcap.com/static/img/coins/64x64/18860.png",
     symbol: "ZBC",
     token_name: "Zebec Protocol",
