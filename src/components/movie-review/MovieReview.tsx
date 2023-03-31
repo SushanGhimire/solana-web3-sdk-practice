@@ -169,7 +169,6 @@ const MovieReview = (props: Props) => {
       });
     }
   };
-  console.log(review);
 
   useEffect(() => {
     if (program) {
