@@ -6,12 +6,12 @@ import {
 } from "@solana/spl-token";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
-import { CONNECTION, LAMPORTS } from "../constants";
+import { getConnection, LAMPORTS } from "../constants";
 import { getpda } from "./getPda";
 
 export const transferSol = async (wallet: WalletContextState) => {
   try {
-    const connection = CONNECTION;
+    const connection = getConnection();
     const publicKey = new PublicKey(wallet?.publicKey?.toString() ?? "");
     const receiver = new PublicKey(
       "6RaG6xBwfT7MKAya3VCfs9cneaTJ6iUkEP1i91XeAF9j"
@@ -54,7 +54,7 @@ export const transferSol = async (wallet: WalletContextState) => {
 
 export const depositSolToPDA = async (wallet: WalletContextState) => {
   try {
-    const connection = CONNECTION;
+    const connection = getConnection();
     const publicKey = new PublicKey(wallet.publicKey ?? "");
     const feePayer = publicKey;
     const pdaAddress = getpda(wallet);
@@ -90,7 +90,7 @@ export const depositTokenToPda = async (
   }
 ) => {
   try {
-    const connection = CONNECTION;
+    const connection = getConnection();
     const senderPublicKey = new PublicKey(wallet.publicKey ?? "");
     const mint = new PublicKey(data.mint);
     const pdaAddress = getpda(wallet);
@@ -141,7 +141,7 @@ export const depositTokenToPda = async (
 };
 
 export const parseTokenAmount = async (amount: string, mint: string) => {
-  const connection = CONNECTION;
+  const connection = getConnection();
   const amt = Number(amount);
   const mintInfo = await getMint(connection, new PublicKey(mint), "confirmed");
   const unitPerToken = Math.pow(10, mintInfo.decimals);

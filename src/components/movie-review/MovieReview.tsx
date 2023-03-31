@@ -117,6 +117,7 @@ const MovieReview = (props: Props) => {
       console.log(signature);
     }
   };
+  
   useEffect(() => {
     if (wallet) {
       let provider: anchor.Provider;
@@ -168,7 +169,6 @@ const MovieReview = (props: Props) => {
       });
     }
   };
-  console.log(review);
 
   useEffect(() => {
     if (program) {

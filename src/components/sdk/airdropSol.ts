@@ -1,6 +1,6 @@
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
-import { CONNECTION, LAMPORTS } from "../constants";
+import { getConnection, LAMPORTS } from "../constants";
 import { fetchWalletSolBalance } from "./fetchBalances";
 
 export const airdropSolToWallet = async (
@@ -8,7 +8,7 @@ export const airdropSolToWallet = async (
   setSol: any
 ) => {
   try {
-    const connection = CONNECTION;
+    const connection = getConnection();
     const publickey = wallet.publicKey?.toString() ?? "";
     const requestSol = await connection.requestAirdrop(
       new PublicKey(publickey),

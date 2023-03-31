@@ -15,6 +15,7 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl } from "@solana/web3.js";
 import { useMemo } from "react";
 import MovieReview from "./components/movie-review/MovieReview";
+import BatchTransfer from "./components/batch-transfer/BatchTransfer";
 
 function App() {
   // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
@@ -37,6 +38,7 @@ function App() {
             <div className="container p-5">
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/batch-transfer" element={<BatchTransfer />} />
                 <Route path="/movie-review" element={<MovieReview />} />
               </Routes>
             </div>

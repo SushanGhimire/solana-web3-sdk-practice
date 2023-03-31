@@ -1,6 +1,8 @@
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useAnchorWallet, useWallet } from "@solana/wallet-adapter-react";
 import { Button, Label, Modal, TextInput } from "flowbite-react";
 import React, { useState } from "react";
+import useGetAnchorProvider from "../../hooks/useGetAnchorProvider";
+import { deposit_spl } from "../anchor-batch-transfer-sdk/deposit-spl";
 import { depositTokenToPda } from "../sdk/transferSol";
 
 type Props = {
@@ -8,7 +10,9 @@ type Props = {
 };
 
 const DepositTokenToPda = ({ tokens }: Props) => {
-  const wallet = useWallet();
+  const walletObj = useWallet();
+  const wallet = useAnchorWallet();
+  const program = useGetAnchorProvider();
   const [open, setOpen] = useState<boolean>(false);
   const [inputs, setInputs] = useState<{
     mint: string;
@@ -29,8 +33,12 @@ const DepositTokenToPda = ({ tokens }: Props) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    depositTokenToPda(wallet, inputs);
+    const type = localStorage.getItem("type");
+    if (type === "batch") {
+      deposit_spl(program, wallet, inputs);
+    } else {
+      depositTokenToPda(walletObj, inputs);
+    }
   };
 
   return (

@@ -32,11 +32,26 @@ const AppNavbar = (props: Props) => {
           <Navbar.Toggle />
         </div>
         <Navbar.Collapse>
-          <Navbar.Link href="/" active={true}>
+          <Navbar.Link
+            href="/"
+            active={true}
+            onClick={() => localStorage.setItem("type", "")}
+          >
             Home
           </Navbar.Link>
-          <Navbar.Link href="/movie-review" active={true}>
-            Movie Review
+          <Navbar.Link
+            href="/batch-transfer"
+            active={true}
+            onClick={() => localStorage.setItem("type", "batch")}
+          >
+            Batch Transfer (Anchor)
+          </Navbar.Link>
+          <Navbar.Link
+            href="/movie-review"
+            active={true}
+            onClick={() => localStorage.setItem("type", "")}
+          >
+            Movie Review (Anchor)
           </Navbar.Link>
         </Navbar.Collapse>
       </Navbar>
