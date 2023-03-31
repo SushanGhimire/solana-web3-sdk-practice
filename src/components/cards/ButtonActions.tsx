@@ -30,8 +30,8 @@ const ButtonActions = ({
   tokens,
 }: Props) => {
   const walletObj = useWallet();
-  const program = useGetAnchorProvider();
   const wallet = useAnchorWallet();
+  const program = useGetAnchorProvider();
   const type = localStorage.getItem("type");
 
   useEffect(() => {

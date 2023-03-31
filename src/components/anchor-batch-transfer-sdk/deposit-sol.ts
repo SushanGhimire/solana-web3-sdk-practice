@@ -3,9 +3,10 @@ import { AnchorWallet } from "@solana/wallet-adapter-react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { getAnchorPda } from "./get-pda";
 import * as anchor from "@project-serum/anchor";
+import { BatchTransfer } from "../../types/batch_transfer";
 
 export const deposit_sol = async (
-  program: Program<Idl> | undefined,
+  program: Program<BatchTransfer> | undefined,
   wallet: AnchorWallet | undefined
 ) => {
   if (!program || !wallet) return;

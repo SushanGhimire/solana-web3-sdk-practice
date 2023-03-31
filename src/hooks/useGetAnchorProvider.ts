@@ -6,9 +6,10 @@ import {
   BATCH_TRANSFER_PROGRAM_ID,
 } from "../components/constants";
 import idl from "../utils/batch-transfer-idl.json";
+import { BatchTransfer } from "../types/batch_transfer";
 
 const useGetAnchorProvider = () => {
-  const [program, setProgram] = useState<anchor.Program>();
+  const [program, setProgram] = useState<anchor.Program<BatchTransfer>>();
   const connection = ANCHOR_CONNECTION;
   const wallet = useAnchorWallet();
 
@@ -24,7 +25,7 @@ const useGetAnchorProvider = () => {
       }
 
       const program = new anchor.Program(
-        idl as anchor.Idl,
+        idl as unknown as BatchTransfer,
         BATCH_TRANSFER_PROGRAM_ID
       );
       setProgram(program);
