@@ -7,6 +7,14 @@ export const ANCHOR_PROGRAM_ID = "GQbVPdXM9nTxr3gua2vj5F5CVeWoZ9MfwMHpbCgux5jN";
 export const BATCH_TRANSFER_PROGRAM_ID =
   "9xxMJ1CUKS9G2AjLuZDG8i5d8Va7dqcMsXgaPsjPir66";
 
+export const getConnection = () => {
+  const CONNECTION = new Connection(clusterApiUrl(RPC_NETWORK), "confirmed");
+  const ANCHOR_CONNECTION = new Connection(ANCHOR_RPC_NETWORK, "confirmed");
+  const type = localStorage.getItem("type");
+  const connection = type === "batch" ? ANCHOR_CONNECTION : CONNECTION;
+  return connection;
+};
+
 export const CONNECTION = new Connection(
   clusterApiUrl(RPC_NETWORK),
   "confirmed"

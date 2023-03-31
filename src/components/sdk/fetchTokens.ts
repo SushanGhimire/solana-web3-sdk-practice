@@ -1,11 +1,11 @@
 import { AccountLayout, getMint, TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { AccountInfo, PublicKey, RpcResponseAndContext } from "@solana/web3.js";
-import { CONNECTION, token_images } from "../constants";
+import { getConnection, token_images } from "../constants";
 import { getpda } from "./getPda";
 
 const getMintInfo = async (mint: PublicKey) => {
-  const connection = CONNECTION;
+  const connection = getConnection();
   const mintData = await getMint(connection, mint);
   return Number(mintData.supply) !== 1 ? mintData : "";
 };
@@ -15,7 +15,7 @@ export const fetchAllWalletTOkens = async (
   setTokens: any
 ) => {
   try {
-    const connection = CONNECTION;
+    const connection = getConnection();
     const publickey = new PublicKey(wallet?.publicKey ?? "");
     const tokenAccounts = await connection.getTokenAccountsByOwner(publickey, {
       programId: TOKEN_PROGRAM_ID,
@@ -31,13 +31,12 @@ export const fetchPdaTokens = async (
   setPdaTokens: any
 ) => {
   try {
-    const connection = CONNECTION;
+    const connection = getConnection();
     const pdaAddress = getpda(wallet);
     // const publicKey = new PublicKey(wallet?.publicKey ?? "");
     const tokenAccounts = await connection.getTokenAccountsByOwner(pdaAddress, {
       programId: TOKEN_PROGRAM_ID,
     });
-    console.log(tokenAccounts);
     getTokenDetails(setPdaTokens, tokenAccounts);
   } catch (err) {
     console.log(err);

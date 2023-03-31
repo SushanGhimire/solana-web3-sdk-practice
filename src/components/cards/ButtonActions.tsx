@@ -1,6 +1,8 @@
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useAnchorWallet, useWallet } from "@solana/wallet-adapter-react";
 import { Button } from "flowbite-react";
 import React, { useEffect } from "react";
+import useGetAnchorProvider from "../../hooks/useGetAnchorProvider";
+import { deposit_sol } from "../anchor-batch-transfer-sdk/deposit-sol";
 import DepositTokenToPda from "../modal/DepositTokenToPda";
 import { airdropSolToWallet } from "../sdk/airdropSol";
 import {
@@ -9,6 +11,7 @@ import {
 } from "../sdk/fetchBalances";
 import { fetchAllWalletTOkens, fetchPdaTokens } from "../sdk/fetchTokens";
 import { depositSolToPDA, transferSol } from "../sdk/transferSol";
+// import idl from "../../utils/batch-transfer-idl.json";
 
 type Props = {
   setSol: React.Dispatch<React.SetStateAction<number>>;
@@ -25,19 +28,23 @@ const ButtonActions = ({
   setPdaTokens,
   tokens,
 }: Props) => {
-  const wallet = useWallet();
+  const walletObj = useWallet();
+  const program = useGetAnchorProvider();
+  const wallet = useAnchorWallet();
+  const type = localStorage.getItem("type");
 
   useEffect(() => {
-    if (wallet.connected) {
-      fetchWalletSolBalance(wallet, setSol);
-      fetchPDASolBalance(wallet, setPdaSol);
+    if (walletObj.connected) {
+      fetchWalletSolBalance(walletObj, setSol);
+      fetchPDASolBalance(walletObj, setPdaSol);
       setTokens([]);
-      fetchAllWalletTOkens(wallet, setTokens);
+      fetchAllWalletTOkens(walletObj, setTokens);
       setPdaTokens([]);
-      fetchPdaTokens(wallet, setPdaTokens);
+      fetchPdaTokens(walletObj, setPdaTokens);
     }
     // eslint-disable-next-line
-  }, [wallet.connected]);
+  }, [walletObj.connected]);
+
   return (
     <div>
       <div className="flex flex-wrap items-center justify-center gap-2">
@@ -46,7 +53,7 @@ const ButtonActions = ({
             <Button
               outline={true}
               gradientDuoTone="purpleToBlue"
-              onClick={() => fetchWalletSolBalance(wallet, setSol)}
+              onClick={() => fetchWalletSolBalance(walletObj, setSol)}
             >
               Fetch Wallet Balance (SOL)
             </Button>
@@ -56,7 +63,7 @@ const ButtonActions = ({
           <Button
             outline={true}
             gradientDuoTone="purpleToPink"
-            onClick={() => fetchPDASolBalance(wallet, setPdaSol)}
+            onClick={() => fetchPDASolBalance(walletObj, setPdaSol)}
           >
             Fetch PDA Balance (SOL)
           </Button>
@@ -67,7 +74,7 @@ const ButtonActions = ({
             gradientDuoTone="tealToLime"
             onClick={() => {
               setTokens([]);
-              fetchAllWalletTOkens(wallet, setTokens);
+              fetchAllWalletTOkens(walletObj, setTokens);
             }}
           >
             Fetch Wallet Tokens
@@ -79,7 +86,7 @@ const ButtonActions = ({
             gradientDuoTone="tealToLime"
             onClick={() => {
               setPdaTokens([]);
-              fetchPdaTokens(wallet, setPdaTokens);
+              fetchPdaTokens(walletObj, setPdaTokens);
             }}
           >
             Fetch PDA Wallet Tokens
@@ -90,7 +97,7 @@ const ButtonActions = ({
           <Button
             outline={true}
             gradientDuoTone="cyanToBlue"
-            onClick={() => airdropSolToWallet(wallet, setSol)}
+            onClick={() => airdropSolToWallet(walletObj, setSol)}
           >
             Air Drop SOL
           </Button>
@@ -99,7 +106,7 @@ const ButtonActions = ({
           <Button
             outline={true}
             gradientDuoTone="greenToBlue"
-            onClick={() => transferSol(wallet)}
+            onClick={() => transferSol(walletObj)}
           >
             Transafer SOL to Another Wallet
           </Button>
@@ -108,7 +115,13 @@ const ButtonActions = ({
           <Button
             outline={true}
             gradientDuoTone="pinkToOrange"
-            onClick={() => depositSolToPDA(wallet)}
+            onClick={() => {
+              if (type === "batch") {
+                deposit_sol(program, wallet);
+              } else {
+                depositSolToPDA(walletObj);
+              }
+            }}
           >
             Deposit SOl to PDA
           </Button>

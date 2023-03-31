@@ -1,13 +1,13 @@
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Transaction } from "@solana/web3.js";
-import { CONNECTION } from "../components/constants";
+import { CONNECTION, getConnection } from "../components/constants";
 
 export const signAndCreateAndConfirmTransaction = async (
   wallet: WalletContextState,
   transaction: Transaction
 ) => {
   try {
-    const connection = CONNECTION;
+    const connection = getConnection();
     if (wallet.signTransaction) {
       const sign = await wallet.signTransaction(transaction);
       const signature = await connection.sendRawTransaction(sign.serialize());

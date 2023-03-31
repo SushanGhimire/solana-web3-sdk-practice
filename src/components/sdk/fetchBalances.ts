@@ -1,6 +1,6 @@
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
-import { CONNECTION, LAMPORTS } from "../constants";
+import { getConnection, LAMPORTS } from "../constants";
 import { getpda } from "./getPda";
 
 export const fetchWalletSolBalance = async (
@@ -8,7 +8,7 @@ export const fetchWalletSolBalance = async (
   setSol: any
 ) => {
   try {
-    const connection = CONNECTION;
+    const connection = getConnection();
     const publickey = wallet.publicKey?.toString() ?? "";
     const balance = await connection.getBalance(new PublicKey(publickey));
     setSol(balance / LAMPORTS);
@@ -25,7 +25,7 @@ export const fetchPDASolBalance = async (
   setPdaSol: any
 ) => {
   try {
-    const connection = CONNECTION;
+    const connection = getConnection();
     const pdaAddress = getpda(wallet);
     const balance = await connection.getBalance(pdaAddress);
     setPdaSol(balance / LAMPORTS);
